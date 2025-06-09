@@ -1,5 +1,3 @@
-import { elements } from './constants.js';
-
 // Основная функция для настройки модального окна
 export function setupModal(modalElement) {
   const closeButton = modalElement.querySelector('.popup__close');
@@ -30,4 +28,3 @@ export function setupModal(modalElement) {
 
   return { openModal, closeModal };
 }
-

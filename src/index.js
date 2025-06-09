@@ -1,25 +1,19 @@
 import './pages/index.css';
 import { elements } from './scripts/constants.js';
 import { setupModal } from './scripts/modal.js';
-import { createCard, renderInitialCards } from './scripts/card.js';
+import { createCard } from './scripts/card.js';
+import { initialCards } from './scripts/cards.js';
 
 // Инициализация модальных окон
 const { openModal: openEditModal, closeModal: closeEditModal } = setupModal(elements.editPopup);
 const { openModal: openAddModal, closeModal: closeAddModal } = setupModal(elements.addPopup);
 const { openModal: openImageModal } = setupModal(elements.imagePopup);
 
-//Обработчики открытия модальных окон
-//добавляем заполнение формы редактирования
+// Обработчики открытия модальных окон
 elements.editButton.addEventListener('click', () => {
-
-  const currentName = document.querySelector('.profile__title').textContent;
-  const currentJob = document.querySelector('.profile__description').textContent;
- 
-  elements.editForm.querySelector('.popup__input_type_name').value = currentName;
-  elements.editForm.querySelector('.popup__input_type_description').value = currentJob;
-  
+  elements.editNameInput.value = elements.profileTitle.textContent;
+  elements.editJobInput.value = elements.profileDescription.textContent;
   openEditModal();
-
 });
 
 // обработчик для кнопки добавления
@@ -27,14 +21,20 @@ elements.addButton.addEventListener('click', openAddModal);
 
 // Функция для открытия попапа с картинкой
 function handleCardClick(cardData) {
-  const imagePopup = elements.imagePopup;
-  imagePopup.querySelector('.popup__image').src = cardData.link;
-  imagePopup.querySelector('.popup__image').alt = cardData.name;
-  imagePopup.querySelector('.popup__caption').textContent = cardData.name;
+  elements.popupImage.src = cardData.link;
+  elements.popupImage.alt = cardData.name;
+  elements.popupCaption.textContent = cardData.name;
   openImageModal();
 }
 
 // Рендер начальных карточек
+function renderInitialCards(handleCardClick) {
+  initialCards.forEach((cardData) => {
+    const cardElement = createCard(cardData, handleCardClick);
+    elements.placesList.append(cardElement);
+  });
+}
+
 renderInitialCards(handleCardClick);
 
 // Обработчики форм
@@ -43,25 +43,17 @@ elements.addForm.addEventListener('submit', handleAddSubmit);
 
 function handleEditSubmit(evt) {
   evt.preventDefault();
-  
-  const nameInput = elements.editForm.querySelector('.popup__input_type_name');
-  const jobInput = elements.editForm.querySelector('.popup__input_type_description');
-  
-  document.querySelector('.profile__title').textContent = nameInput.value;
-  document.querySelector('.profile__description').textContent = jobInput.value;
-  
+  elements.profileTitle.textContent = elements.editNameInput.value;
+  elements.profileDescription.textContent = elements.editJobInput.value;
   closeEditModal();
 }
 
 function handleAddSubmit(evt) {
   evt.preventDefault();
-  
-  const placeName = elements.addForm.querySelector('.popup__input_type_card-name').value;
-  const imageUrl = elements.addForm.querySelector('.popup__input_type_url').value;
-  
+
   const newCard = {
-    name: placeName,
-    link: imageUrl
+    name: elements.addCardNameInput.value,
+    link: elements.addCardUrlInput.value
   };
   
   // Добавляем новую карточку в начало списка

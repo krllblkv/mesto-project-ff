@@ -1,7 +1,6 @@
 import { elements } from './constants.js';
-import { initialCards } from './cards.js';
 
-// Создает DOM-элемент карточки на основе переданных данных
+// Создаем DOM-элемент карточки на основе переданных данных
 export function createCard(cardData, handleCardClick) {
   const cardElement = elements.cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = cardElement.querySelector('.card__image');
@@ -28,12 +27,4 @@ export function createCard(cardData, handleCardClick) {
 
   // Возвращаем готовый DOM-элемент карточки
   return cardElement;
-}
-
-// Отрисовывает начальные карточки на странице
-export function renderInitialCards(handleCardClick) {
-  initialCards.forEach((cardData) => {
-    const cardElement = createCard(cardData, handleCardClick);
-    elements.placesList.append(cardElement);
-  });
 }
