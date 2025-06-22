@@ -27,3 +27,11 @@
     background-size: 8px 8px;
   }
 }
+
+.profile__image-container:hover .profile__image {
+  opacity: 0.8;
+}
+
+.profile__avatar-edit {
+  background: rgba(0, 0, 0, 0.8) center no-repeat;
+}
